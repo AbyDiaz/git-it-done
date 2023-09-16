@@ -5,15 +5,39 @@ var repoSearchTerm = document.querySelector('#repo-search-term');
 
 var getUserRepos = function(user) {
 
+    // check if api returned any repos
+    if(repos.length === 0) {
+        repoContainerEl.textContent = "No repositories found";
+        return;
+    }
+
     // format github API url 
     var apiUrl = "https://api.github.com/users/" + user + '/repos';
 
-    // make a request to the url
-    fetch(apiUrl).then(function(response) {
+    // make request to the url
+    fetch(apiUrl)
+        .then(function(response) {
+        // request was successful
+        if(response.ok) {
+            response.json().then(function(data) {
+                displayRepos(data, user);
+            });
+        } else {
+            alert('Error: GitHub User Not Found');
+        }
+    })
+
+    .catch(function(error) {
+        // notice .catch() getting chained to the end of the .then() method
+        alert('Unable to connect to GitHub');
+    });
+
+    // make a request to the url... first iteration
+    /*fetch(apiUrl).then(function(response) {
         response.json().then(function(data) {
             displayRepos(data, user);
         });
-    });
+    });*/
 
 };
 
