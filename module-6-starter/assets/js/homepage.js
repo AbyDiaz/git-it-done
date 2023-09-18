@@ -5,12 +5,6 @@ var repoSearchTerm = document.querySelector('#repo-search-term');
 
 var getUserRepos = function(user) {
 
-    // check if api returned any repos
-    if(repos.length === 0) {
-        repoContainerEl.textContent = "No repositories found";
-        return;
-    }
-
     // format github API url 
     var apiUrl = "https://api.github.com/users/" + user + '/repos';
 
@@ -57,6 +51,12 @@ var formSubmitHandler = function(event) {
 };
 
 var displayRepos = function(repos, searchTerm) {
+
+    // check if api returned any repos
+    if (repos.length === 0) {
+        repoContainerEl.textContent = 'No repositories found';
+        return;
+    }
 
     console.log(repos);
     console.log(searchTerm);
